@@ -97,7 +97,7 @@ class Order(models.Model):
     buyer = models.ForeignKey(Buyer, verbose_name="Клиент", on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, verbose_name="Продукт", on_delete=models.SET_NULL, null=True)
     quantity = models.PositiveIntegerField(verbose_name="Кол-во продукта", default=1)
-    cart = models.ForeignKey(Cart, verbose_name="", on_delete=models.CASCADE, null=True)
+    cart = models.ForeignKey(Cart, verbose_name="Корзина", on_delete=models.CASCADE, null=True)
 
     class Meta:
         verbose_name = "Заказ"
@@ -109,6 +109,11 @@ class Journal(models.Model):
     address = models.CharField(verbose_name="Адрес", max_length=100, blank=True)
     phone = models.CharField(verbose_name="Номер телефона", max_length=20, blank=True)
     pay_type = models.ForeignKey(PayType, verbose_name="Способ оплаты", on_delete=models.SET_NULL, null=True, blank=True)
-    status = models.ForeignKey(Status, verbose_name="", on_delete=models.SET_NULL)
+    cart = models.ForeignKey(Cart, verbose_name="Корзина", on_delete=models.SET_NULL, null=True)
+    status = models.ForeignKey(Status, verbose_name="Статус", on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата заказа')
     served_at = models.DateTimeField(auto_now=True, verbose_name='Дата обслуживания')
+
+    class Meta:
+        verbose_name = "Журнал"
+        verbose_name_plural = "Журналы"
