@@ -150,7 +150,7 @@ ddsmoothmenu.init({
         <div id="content">
             {% for product in product_list %}
         	<div class="col col_14 product_gallery">
-            	<a href="{{ product.get_absolute_url }}"><img height="170" width="170" src="{{ product.photo.url }}" alt="Product 01" /></a>
+            	<a href="{{ product.get_absolute_url }}"><img height="170" width="170" src="{{ product.image.url }}" alt="Product 01" /></a>
                 <h3>{{ product.name }}</h3>
                 <p class="product_price">{{ product.price }}</p>
                 <p>{{ product.after_discount }}</p>
