@@ -70,7 +70,7 @@ class Product(models.Model):
 
 
 class Buyer(models.Model):
-    session_id = models.CharField(verbose_name="Сессия ID", max_length=25)
+    session_id = models.CharField(verbose_name="Сессия ID", max_length=50)
     full_name = models.CharField(verbose_name="ФИО", max_length=100, blank=True)
     address = models.CharField(verbose_name="Адрес", max_length=100, blank=True)
     phone = models.CharField(verbose_name="Номер телефона", max_length=20, blank=True)

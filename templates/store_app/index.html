@@ -154,7 +154,7 @@ ddsmoothmenu.init({
                 <h3>{{ product.name }}</h3>
                 <p class="product_price">{{ product.price }}</p>
                 <p>{{ product.after_discount }}</p>
-                {% comment %} <a href="{% url 'add_to_cart' product.pk %}" class="add_to_cart">Add to Cart</a> {% endcomment %}
+                <a href="{% url 'add_to_cart' product.pk %}" class="add_to_cart">Add to Cart</a>
             </div>
             {% endfor %}
         </div> <!-- END of content -->
