@@ -27,12 +27,13 @@ class AddToCart(View):
             try:
                 order = Order.objects.get(product_id=product.id, buyer_id=buyer.id)
                 order.quantity += 1
+                order.total_price += product.price
                 order.save()
             except:
                 o = "order not found"
 
             if o == "order not found":
-                order = Order.objects.create(buyer=buyer, product=product, quantity=1, cart=cart)
+                order = Order.objects.create(buyer=buyer, product=product, quantity=1, total_price=product.price, cart=cart)
 
         except:
             b = "Not found"
@@ -40,6 +41,24 @@ class AddToCart(View):
         if b == "Not found":
             buyer = Buyer.objects.create(session_id=s.session_key)
             cart = Cart.objects.create(buyer=buyer)
-            order = Order.objects.create(buyer=buyer, product=product, quantity=1, cart=cart)
+            order = Order.objects.create(buyer=buyer, product=product, quantity=1, total_price=product.price, cart=cart)
 
-        return redirect("/")
+        return redirect("/cart-detail")
+
+
+class CartDetailView(View):
+    def get(self, request):
+        b = ""
+        s = request.session
+        try:
+            buyer = Buyer.objects.get(session_id=s.session_key)
+            orders = Order.objects.filter(buyer_id=buyer.id)
+        except:
+            b = "Buyer not found"
+
+        if b == "Buyer not found":
+            buyer = Buyer.objects.create(session_id=s.session_key)
+            orders = Order.objects.filter(buyer_id=buyer.id)
+
+        context = {'orders': orders}
+        return render(request, "store_app/cart_detail.html", context)

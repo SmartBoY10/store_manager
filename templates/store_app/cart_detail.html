@@ -121,18 +121,18 @@ function clearText(field)
                             
                       </tr>
 <!--                        One order-->
-                    {% for cart in carts %}
-                    <form action="{% url 'add_to_cart_with_quantity' %}" method="post">
+                    {% for order in orders %}
+                    {% comment %} <form action="{% url 'add_to_cart_with_quantity' %}" method="post"> {% endcomment %}
                     {% csrf_token %}
 
                     	<tr>
-                        	<td><img height="170" width="170" src="{{ cart.product.photo.url }}" alt="image 01" /></td>
-                        	<td>{{ cart.product.name }}</td>
-                            <td align="center" hidden="True"><input type="text" value="{{ cart.id }}" name="cart_id" style="width: 20px; text-align: right" /></td>
-                            <td align="center"><input type="text" value="{{ cart.quantity }}" name="quantity"  style="width: 20px; text-align: right" /> </td>
-                            <td align="right">{{ cart.product.price }} </td>
-                            <td align="right">{{ cart.total_price }} </td>
-                            <td align="center"> <a href="{% url 'delete_from_cart' cart.id %}"><img src="{% static 'images/remove_x.gif' %}" alt="remove" /><br />Remove</a> </td>
+                        	<td><img height="170" width="170" src="{{ order.product.image.url }}" alt="image 01" /></td>
+                        	<td>{{ order.product.name }}</td>
+                            <td align="center" hidden="True"><input type="text" value="{{ order.id }}" name="cart_id" style="width: 20px; text-align: right" /></td>
+                            <td align="center"><input type="text" value="{{ order.quantity }}" name="quantity"  style="width: 20px; text-align: right" /> </td>
+                            <td align="right">{{ order.product.price }} </td>
+                            <td align="right">{{ order.total_price }} </td>
+                            {% comment %} <td align="center"> <a href="{% url 'delete_from_cart' cart.id %}"><img src="{% static 'images/remove_x.gif' %}" alt="remove" /><br />Remove</a> </td> {% endcomment %}
 						</tr>
 
 <!--                =====-->
@@ -149,7 +149,7 @@ function clearText(field)
 					</table>
                     <div style="float:right; width: 215px; margin-top: 20px;">
                     
-                        <div class="checkout"><a href="{% url 'take-order' buyer_id %}" class="more">Proceed to Checkout</a></div>
+                        {% comment %} <div class="checkout"><a href="{% url 'take-order' buyer_id %}" class="more">Proceed to Checkout</a></div> {% endcomment %}
                         <div class="cleaner h20"></div>
                         <div class="continueshopping"><a href="javascript:history.back()" class="more">Continue Shopping</a></div>
                     	
