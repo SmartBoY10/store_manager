@@ -132,7 +132,7 @@ function clearText(field)
                             <td align="center"><input type="text" value="{{ order.quantity }}" name="quantity"  style="width: 20px; text-align: right" /> </td>
                             <td align="right">{{ order.product.price }} </td>
                             <td align="right">{{ order.total_price }} </td>
-                            {% comment %} <td align="center"> <a href="{% url 'delete_from_cart' cart.id %}"><img src="{% static 'images/remove_x.gif' %}" alt="remove" /><br />Remove</a> </td> {% endcomment %}
+                            <td align="center"> <a href="{% url 'delete_from_cart' order.id %}"><img src="{% static 'images/remove_x.gif' %}" alt="remove" /><br />Remove</a> </td>
 						</tr>
 
 

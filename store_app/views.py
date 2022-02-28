@@ -78,3 +78,14 @@ class AddToCartWithQuantity(View):
             order.save()
 
         return redirect("/cart-detail")
+
+
+class DeleteFromCart(View):
+    def get(self, request, pk):
+        return render(request, "store_app/delete_from_cart.html", {"cart_id":pk})
+
+
+class ConfirmDelete(View):
+    def post(self, request, pk):
+        Order.objects.get(id=pk).delete()
+        return redirect("/cart-detail")
