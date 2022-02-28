@@ -122,7 +122,7 @@ function clearText(field)
                       </tr>
 <!--                        One order-->
                     {% for order in orders %}
-                    {% comment %} <form action="{% url 'add_to_cart_with_quantity' %}" method="post"> {% endcomment %}
+                    <form action="{% url 'add_to_cart_with_quantity' %}" method="post">
                     {% csrf_token %}
 
                     	<tr>
@@ -135,7 +135,7 @@ function clearText(field)
                             {% comment %} <td align="center"> <a href="{% url 'delete_from_cart' cart.id %}"><img src="{% static 'images/remove_x.gif' %}" alt="remove" /><br />Remove</a> </td> {% endcomment %}
 						</tr>
 
-<!--                =====-->
+
                         <tr>
                         	<td colspan="3" align="right"  height="40px">Have you modified your basket? Please click here to <strong><button type="submit">Update</button></strong></td>
 						</tr>

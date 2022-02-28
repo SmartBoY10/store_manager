@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic.base import View
 from .models import *
+from .forms import *
 
 
 class ProductsView(View):
@@ -63,3 +64,17 @@ class CartDetailView(View):
 
         context = {'orders': orders}
         return render(request, "store_app/cart_detail.html", context)
+
+
+class AddToCartWithQuantity(View):
+    def post(self, request):
+        form = AddToCartForm(request.POST)
+        if form.is_valid():
+            cart_id = form.cleaned_data['cart_id']
+            quantity = form.cleaned_data['quantity']
+            order = Order.objects.get(id=cart_id)
+            order.quantity = quantity
+            order.total_price = order.product.price * quantity
+            order.save()
+
+        return redirect("/cart-detail")
