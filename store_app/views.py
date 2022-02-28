@@ -58,6 +58,7 @@ class CartDetailView(View):
 
         if b == "Buyer not found":
             buyer = Buyer.objects.create(session_id=s.session_key)
+            cart = Cart.objects.create(buyer=buyer)
             orders = Order.objects.filter(buyer_id=buyer.id)
 
         context = {'orders': orders}
