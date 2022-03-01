@@ -62,7 +62,7 @@ class CartDetailView(View):
             cart = Cart.objects.create(buyer=buyer)
             orders = Order.objects.filter(buyer_id=buyer.id)
 
-        context = {'orders': orders}
+        context = {'orders': orders, 'buyer_id': buyer.id}
         return render(request, "store_app/cart_detail.html", context)
 
 
@@ -89,3 +89,25 @@ class ConfirmDelete(View):
     def post(self, request, pk):
         Order.objects.get(id=pk).delete()
         return redirect("/cart-detail")
+
+
+class TakeOrder(View):
+    def get(self, request, pk):
+        pay_type = PayType.objects.all()
+        return render(request, "store_app/checkout.html", {"buyer_id": pk, "pay_type": pay_type})
+
+
+class Confirm(View):
+    def post(self, request, pk):
+        form = ConfirOrderForm(request.POST)
+        if form.is_valid():
+            buyer = Buyer.objects.get(id=pk)
+            buyer.full_name = form.cleaned_data['full_name']
+            buyer.address = form.cleaned_data['address']
+            buyer.phone = form.cleaned_data['phone']
+            buyer.city = form.cleaned_data['city']
+            buyer.pay_type_id = form.cleaned_data['pay_type']
+            buyer.save()
+        return redirect("/")
+            
+            
