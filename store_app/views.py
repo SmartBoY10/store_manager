@@ -8,15 +8,6 @@ from .forms import *
 class ProductsView(View):
     def get(self, request):
         products = Product.objects.all()
-        orders = Order.objects.all()
-        orders_dict = {}
-        for order in orders:
-            orders_dict[order.id] = {
-                                    "Product": order.product.name, 
-                                    "Quantity": order.quantity, 
-                                    "Total price": order.total_price
-                                    }
-        print(orders_dict)
         return render(request, "store_app/index.html", {"product_list":products})
 
 
@@ -116,8 +107,10 @@ class Confirm(View):
         form = ConfirOrderForm(request.POST)
         if form.is_valid():
             buyer = Buyer.objects.get(id=pk)
-            print(buyer)
             orders = Order.objects.filter(buyer_id=pk)
+            status = Status.objects.get(status_type='NOT_SERVED')
+            pay_type = PayType.objects.get(pay_type=form.cleaned_data['pay_type'])
+
             orders_dict = {}
             for order in orders:
                 orders_dict[order.id] = {
@@ -125,14 +118,7 @@ class Confirm(View):
                                         "Quantity": order.quantity, 
                                         "Total price": order.total_price
                                         }
-            status = Status.objects.get(status_type='NOT_SERVED')
-            pay_type = PayType.objects.get(pay_type=form.cleaned_data['pay_type'])
-            buyer.full_name = form.cleaned_data['full_name']
-            buyer.address = form.cleaned_data['address']
-            buyer.phone = form.cleaned_data['phone']
-            buyer.city = form.cleaned_data['city']
-            buyer.pay_type = pay_type
-            buyer.save()
+
             Journal.objects.create(
                 full_name=form.cleaned_data['full_name'],
                 address=form.cleaned_data['address'],
@@ -141,8 +127,8 @@ class Confirm(View):
                 orders=orders_dict,
                 status=status
                 )
-        else:
-            print("Qotaqbasss")
+            Cart.objects.get(buyer_id=pk).delete()
+            buyer.delete()
         return redirect("/")
             
             

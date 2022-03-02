@@ -72,11 +72,6 @@ class Product(models.Model):
 
 class Buyer(models.Model):
     session_id = models.CharField(verbose_name="Сессия ID", max_length=50)
-    full_name = models.CharField(verbose_name="ФИО", max_length=100, blank=True)
-    address = models.CharField(verbose_name="Адрес", max_length=100, blank=True)
-    phone = models.CharField(verbose_name="Номер телефона", max_length=20, blank=True)
-    city = models.CharField(verbose_name="Город", max_length=50, blank=True)
-    pay_type = models.ForeignKey(PayType, verbose_name="Способ оплаты", on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.session_id

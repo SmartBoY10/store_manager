@@ -13,8 +13,8 @@ admin.site.register(PayType)
 
 @admin.register(Buyer)
 class BuyerAdmin(admin.ModelAdmin):
-    list_display = ("id", "session_id", "full_name", "address", "phone", "city", "pay_type")
-    list_display_links = ("id", "full_name")
+    list_display = ("id", "session_id")
+    list_display_links = ("id", "session_id")
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
