@@ -1,4 +1,5 @@
 from django.db import models
+import jsonfield
 
 class Status(models.Model):
     status_type = models.CharField(verbose_name="Тип статуса", max_length=50)
@@ -11,7 +12,7 @@ class Status(models.Model):
 
 
 class PayType(models.Model):
-    pay_type = models.CharField(verbose_name="", max_length=25)
+    pay_type = models.CharField(verbose_name="Способ оплаты", max_length=25)
 
     def __str__(self):
         return self.pay_type
@@ -110,10 +111,13 @@ class Journal(models.Model):
     address = models.CharField(verbose_name="Адрес", max_length=100, blank=True)
     phone = models.CharField(verbose_name="Номер телефона", max_length=20, blank=True)
     pay_type = models.ForeignKey(PayType, verbose_name="Способ оплаты", on_delete=models.SET_NULL, null=True, blank=True)
-    cart = models.ForeignKey(Cart, verbose_name="Корзина", on_delete=models.SET_NULL, null=True)
     status = models.ForeignKey(Status, verbose_name="Статус", on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата заказа')
     served_at = models.DateTimeField(auto_now=True, verbose_name='Дата обслуживания')
+    orders = jsonfield.JSONField()
+
+    def __str__(self):
+        return self.full_name
 
     class Meta:
         verbose_name = "Журнал"

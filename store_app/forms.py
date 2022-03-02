@@ -10,4 +10,4 @@ class ConfirOrderForm(forms.Form):
     address = forms.CharField(max_length=100)
     phone = forms.CharField(max_length=20)
     city = forms.CharField(max_length=50)
-    pay_type = forms.IntegerField()
+    pay_type = forms.CharField(max_length=50)

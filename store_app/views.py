@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.views.generic.base import View
+
 from .models import *
 from .forms import *
 
@@ -7,6 +8,15 @@ from .forms import *
 class ProductsView(View):
     def get(self, request):
         products = Product.objects.all()
+        orders = Order.objects.all()
+        orders_dict = {}
+        for order in orders:
+            orders_dict[order.id] = {
+                                    "Product": order.product.name, 
+                                    "Quantity": order.quantity, 
+                                    "Total price": order.total_price
+                                    }
+        print(orders_dict)
         return render(request, "store_app/index.html", {"product_list":products})
 
 
@@ -50,6 +60,7 @@ class AddToCart(View):
 class CartDetailView(View):
     def get(self, request):
         b = ""
+        cart_total_price = 0
         s = request.session
         try:
             buyer = Buyer.objects.get(session_id=s.session_key)
@@ -59,10 +70,13 @@ class CartDetailView(View):
 
         if b == "Buyer not found":
             buyer = Buyer.objects.create(session_id=s.session_key)
-            cart = Cart.objects.create(buyer=buyer)
+            Cart.objects.create(buyer=buyer)
             orders = Order.objects.filter(buyer_id=buyer.id)
 
-        context = {'orders': orders, 'buyer_id': buyer.id}
+        for order in orders:
+            cart_total_price += order.total_price
+
+        context = {'orders': orders, 'buyer_id': buyer.id, 'cart_total_price': cart_total_price}
         return render(request, "store_app/cart_detail.html", context)
 
 
@@ -102,12 +116,33 @@ class Confirm(View):
         form = ConfirOrderForm(request.POST)
         if form.is_valid():
             buyer = Buyer.objects.get(id=pk)
+            print(buyer)
+            orders = Order.objects.filter(buyer_id=pk)
+            orders_dict = {}
+            for order in orders:
+                orders_dict[order.id] = {
+                                        "Product": order.product.name, 
+                                        "Quantity": order.quantity, 
+                                        "Total price": order.total_price
+                                        }
+            status = Status.objects.get(status_type='NOT_SERVED')
+            pay_type = PayType.objects.get(pay_type=form.cleaned_data['pay_type'])
             buyer.full_name = form.cleaned_data['full_name']
             buyer.address = form.cleaned_data['address']
             buyer.phone = form.cleaned_data['phone']
             buyer.city = form.cleaned_data['city']
-            buyer.pay_type_id = form.cleaned_data['pay_type']
+            buyer.pay_type = pay_type
             buyer.save()
+            Journal.objects.create(
+                full_name=form.cleaned_data['full_name'],
+                address=form.cleaned_data['address'],
+                phone=form.cleaned_data['phone'],
+                pay_type=pay_type,
+                orders=orders_dict,
+                status=status
+                )
+        else:
+            print("Qotaqbasss")
         return redirect("/")
             
             

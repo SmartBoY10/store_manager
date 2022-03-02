@@ -120,10 +120,10 @@ function clearText(field)
                 City:
                 <input type="text"  style="width:300px;" name="city"  />
                 Pay type:
-                <select style="width:300px; name="pay_type">
+                <select name="pay_type">
                     <option selected>Open this select menu</option>
                     {% for p in pay_type %}
-                    <option value="{{ p.id }}">{{ p.pay_type }}</option>
+                    <option value="{{ p }}">{{ p.pay_type }}</option>
                     {% endfor %}
                 </select>
             </div>
