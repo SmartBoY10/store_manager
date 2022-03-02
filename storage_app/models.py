@@ -73,3 +73,37 @@ class Manual(models.Model):
     class Meta:
         verbose_name = "Справочник"
         verbose_name_plural = "Справочники"
+
+
+class Purchase(models.Model):
+    storage = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, verbose_name="Продукт", on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(verbose_name="Кол-во")
+    price_per_unit = models.IntegerField(verbose_name="Цена покупки за единицу")
+
+    def __str__(self):
+        return self.product.name
+
+    def total_purchase_price(self):
+        return self.price_per_unit * self.quantity
+
+    class Meta:
+        verbose_name = "Закупка"
+        verbose_name_plural = "Закупки"
+
+
+class Sale(models.Model):
+    storage = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, verbose_name="Продукт", on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(verbose_name="Кол-во")
+    price_per_unit = models.IntegerField(verbose_name="Цена продажи за единицу")
+
+    def __str__(self):
+        return self.product.name
+
+    def total_sale_price(self):
+        return self.price_per_unit * self.quantity
+
+    class Meta:
+        verbose_name = "Продажа"
+        verbose_name_plural = "Продажи"

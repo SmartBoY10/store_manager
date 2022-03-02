@@ -1,1 +1,8 @@
-<h1>Hello Mady</h1>
+<!DOCTYPE html>
+{% load static %}
+
+<h1>Torgovaya Marka Bla bla bla</h1>
+{% for manual in manuals %}
+<a href="{% url 'manual_detail' manual.id %}"><img height="170" width="170" src="{% static 'images/storage.png' %}" alt="Product 01" /></a>
+<h3>{{ manual.name }}</h3>
+{% endfor %}
