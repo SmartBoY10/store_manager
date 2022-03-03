@@ -6,3 +6,30 @@
 {{ purchase.quantity }}
 {{ purchase.price_per_unit }}
 {% endfor %}
+
+<form action="{% url 'purchase_product'%}" method="post">
+    {% csrf_token %}
+    <div class="col col_13 checkout">
+        Storage:
+        <select name="storage">
+            <option selected>Select storage</option>
+            {% for storage in storages %}
+            <option value="{{ storage }}">{{ storage.name }}</option>
+            {% endfor %}
+        </select>
+        Product:
+        <select name="product">
+            <option selected>Select storage</option>
+            {% for product in products %}
+            <option value="{{ product }}">{{ product.name }}</option>
+            {% endfor %}
+        </select>
+        Quantity:
+        <input type="number"  style="width:300px;" name="quantity"  />
+        Price per unit:
+        <input type="number"  style="width:300px;" name="price_per_unit"  />
+    </div>
+    <button type="submit" class="">
+        Purchase
+    </button>
+</form>

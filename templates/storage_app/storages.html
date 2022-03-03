@@ -1,8 +1,34 @@
 <!DOCTYPE html>
 
-{% for storage in storages %}
-    <p>{{ storage.name }}</p>
-    {% for product in products %}
+
+    <p></p>
+    
     <p>{{ product.name }}</p>
+    
+
+
+<table border="1">
+    {% for storage in storages %}
+        <tr>
+        <td>Склад</td>
+        <td>Штука</td>
+        <td>Сумма</td>
+        </tr>
+        <tr>
+            <td>{{ storage.name }}</td>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            {% comment %} <td>{{ product.quantity }}</td> {% endcomment %}
+            <td>{{ quantity }}</td>
+        </tr>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
+    <tr>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+    </tr>
+    
+</table>
