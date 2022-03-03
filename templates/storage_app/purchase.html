@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+
+{% for purchase in purchases %}
+{{ purchase.storage }}
+{{ purchase.product }}
+{{ purchase.quantity }}
+{{ purchase.price_per_unit }}
+{% endfor %}
