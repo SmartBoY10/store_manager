@@ -19,9 +19,8 @@ class StorageView(View):
         storages = Storage.objects.all()
         for storage in storages:
             products = Storage.objects.get(id=storage.id).product.all()
-            d = {storage.name: products}
-        print(d)
-        return render(request, "storage_app/storages.html")
+        context = {"storages": storages, "products": products}
+        return render(request, "storage_app/storages.html", context)
 
 
 class PurchaseView(View):
