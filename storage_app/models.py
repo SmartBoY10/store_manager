@@ -50,7 +50,7 @@ class Product(models.Model):
 
 class Storage(models.Model):
     name = models.CharField(verbose_name="Склад", max_length=50)
-    product = models.ManyToManyField(Product)
+    product = models.ManyToManyField(Product, verbose_name="Продукты")
 
     def __str__(self):
         return self.name
@@ -58,21 +58,6 @@ class Storage(models.Model):
     class Meta:
         verbose_name = "Склад"
         verbose_name_plural = "Склады"
-
-
-class Manual(models.Model):
-    name = models.CharField(verbose_name="Справочник", max_length=50)
-    brand = models.ManyToManyField(Brand)
-    category = models.ManyToManyField(Category)
-    product = models.ManyToManyField(Product)
-    storage = models.ManyToManyField(Storage)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Справочник"
-        verbose_name_plural = "Справочники"
 
 
 class Purchase(models.Model):

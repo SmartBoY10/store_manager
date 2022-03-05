@@ -1,8 +1,50 @@
 <!DOCTYPE html>
-{% load static %}
 
-<h1>Torgovaya Marka Bla bla bla</h1>
-{% for manual in manuals %}
-<a href="{% url 'manual_detail' manual.id %}"><img height="170" width="170" src="{% static 'images/storage.png' %}" alt="Product 01" /></a>
-<h3>{{ manual.name }}</h3>
-{% endfor %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="{% url 'storages' %}">Storages</a>
+          <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
+          <a class="nav-link" href="{% url 'sale' %}">Sale</a>
+          <a class="nav-link" href="#">Actions</a>
+        </div>
+      </div>
+    </div>
+</nav>
+
+<p></p>
+    
+    <p>{{ product.name }}</p>
+    
+
+
+<table border="1">
+    {% for storage in storages %}
+        <tr>
+        <td>Склад</td>
+        <td>Штука</td>
+        <td>Сумма</td>
+        </tr>
+        <tr>
+            <td>{{ storage.name }}</td>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            {% comment %} <td>{{ product.quantity }}</td> {% endcomment %}
+            <td>{{ product.quantity }}</td>
+        </tr>
+        {% endfor %}
+    {% endfor %}
+    <tr>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+    </tr>
+    
+</table>

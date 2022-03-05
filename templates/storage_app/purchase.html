@@ -5,6 +5,7 @@
 {{ purchase.product }}
 {{ purchase.quantity }}
 {{ purchase.price_per_unit }}
+{{ purchase.total_purchase_price }}
 {% endfor %}
 
 <form action="{% url 'purchase_product'%}" method="post">
