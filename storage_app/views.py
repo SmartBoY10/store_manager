@@ -57,7 +57,7 @@ class PurchaseProduct(View):
                 price_per_unit=form.cleaned_data['price_per_unit']
             )
         else:
-            print("Qotaqbass")
+            print("Qotaqbass Fikusx")
         return redirect("/")
 
 
