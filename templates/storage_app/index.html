@@ -1,50 +1,55 @@
 <!DOCTYPE html>
+{% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Storage</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="{% url 'storages' %}">Storages</a>
-          <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
-          <a class="nav-link" href="{% url 'sale' %}">Sale</a>
-          <a class="nav-link" href="#">Actions</a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+              <a class="nav-link" href="{% url 'storages' %}">Storages</a>
+              <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
+              <a class="nav-link" href="{% url 'sale' %}">Sale</a>
+              <a class="nav-link" href="#">Actions</a>
+          </div>
         </div>
-      </div>
     </div>
-</nav>
+  </nav>
 
-<p></p>
-    
-    <p>{{ product.name }}</p>
-    
-
-
-<table border="1">
-    {% for storage in storages %}
-        <tr>
-        <td>Склад</td>
-        <td>Штука</td>
-        <td>Сумма</td>
-        </tr>
-        <tr>
-            <td>{{ storage.name }}</td>
-        </tr>
-        {% for product in products %}
-        <tr>
-            <td>{{ product.name }}</td>
-            {% comment %} <td>{{ product.quantity }}</td> {% endcomment %}
-            <td>{{ product.quantity }}</td>
-        </tr>
-        {% endfor %}
-    {% endfor %}
-    <tr>
-        <td>...</td>
-        <td>...</td>
-        <td>...</td>
-    </tr>
-    
-</table>
+      
+  <table border="1">
+      {% for storage in storages %}
+          <tr>
+          <td>Склад</td>
+          <td>Штука</td>
+          <td>Сумма</td>
+          </tr>
+          <tr>
+              <td>{{ storage.name }}</td>
+          </tr>
+          {% for product in products %}
+          <tr>
+              <td>{{ product.name }}</td>
+              {% comment %} <td>{{ product.quantity }}</td> {% endcomment %}
+              <td>{{ product.quantity }}</td>
+          </tr>
+          {% endfor %}
+      {% endfor %}
+      <tr>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+      </tr>
+      
+  </table>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
