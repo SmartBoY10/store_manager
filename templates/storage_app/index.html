@@ -48,8 +48,37 @@
           <td>...</td>
           <td>...</td>
       </tr>
-      
   </table>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Склад</th>
+        <th scope="col">Штука</th>
+        <th scope="col">Сумма</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for storage in storages %}
+      <tr>
+        <th scope="row">{{ storage.id }}</th>
+        <td>{{ storage.name }}</td>
+        {% comment %} <td>Otto</td>
+        <td>@mdo</td> {% endcomment %}
+      </tr>
+      {% for product in products %}
+      <tr>
+        <th scope="row"></th>
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>@mdo</td>
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </body>
 </html>
