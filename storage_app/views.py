@@ -19,7 +19,8 @@ class PurchaseView(View):
     def get(self, request):
         purchases = Purchase.objects.all()
         storages = Storage.objects.all()
-        products = Product.objects.all()
+        for storage in storages:
+            products = Storage.objects.get(id=storage.id).product.all()
         context = {"purchases": purchases, "storages": storages, "products": products}
         return render(request, "storage_app/purchase.html", context)
 
@@ -30,14 +31,20 @@ class PurchaseProduct(View):
         if form.is_valid():
             storage = Storage.objects.get(name=form.cleaned_data['storage'])
             product = Product.objects.get(name=form.cleaned_data['product'])
+            quantity = form.cleaned_data['quantity']
+            price_per_unit = product.price_per_unit
+
             Purchase.objects.create(
                 storage=storage,
                 product=product,
-                quantity=form.cleaned_data['quantity'],
-                price_per_unit=form.cleaned_data['price_per_unit']
+                quantity=quantity,
+                price_per_unit=price_per_unit
             )
-            product.quantity += form.cleaned_data['quantity']
+            product.total_cost += (quantity * price_per_unit)
+            product.quantity += quantity
             product.save()
+        else:
+            print("Qotagbasss")
         return redirect("/storage")
 
 
@@ -45,7 +52,8 @@ class SaleView(View):
     def get(self, request):
         sales = Sale.objects.all()
         storages = Storage.objects.all()
-        products = Product.objects.all()
+        for storage in storages:
+            products = Storage.objects.get(id=storage.id).product.all()
         return render(request, "storage_app/sale.html", {"sales": sales, "storages": storages, "products": products})
 
 
@@ -55,12 +63,17 @@ class SaleProduct(View):
         if form.is_valid():
             storage = Storage.objects.get(name=form.cleaned_data['storage'])
             product = Product.objects.get(name=form.cleaned_data['product'])
+            quantity = form.cleaned_data['quantity']
+            purchase_price_per_unit = product.price_per_unit
+            sale_price_per_unit = form.cleaned_data['sale_price_per_unit']
             Sale.objects.create(
                 storage=storage,
                 product=product,
-                quantity=form.cleaned_data['quantity'],
-                price_per_unit=form.cleaned_data['price_per_unit']
+                quantity=quantity,
+                purchase_price_per_unit=purchase_price_per_unit,
+                sale_price_per_unit=sale_price_per_unit
             )
+            product.total_cost -= (quantity * purchase_price_per_unit)
             product.quantity -= form.cleaned_data['quantity']
             product.save()
         return redirect("/storage")

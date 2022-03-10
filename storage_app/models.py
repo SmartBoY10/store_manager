@@ -29,19 +29,15 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(verbose_name="Название", max_length=150)
-    price = models.PositiveIntegerField(verbose_name="Цена")
-    discount = models.PositiveSmallIntegerField(verbose_name="Скидка в %")
+    total_cost = models.PositiveIntegerField(verbose_name="Общая себестоимость продукта", default=0)
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey(Brand, verbose_name="Бренд", on_delete=models.SET_NULL, null=True)
     quantity = models.PositiveIntegerField(verbose_name="Кол-во в складе", default=0)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
-    url = models.SlugField(max_length=160, unique=True, null=True)
+    price_per_unit = models.IntegerField(verbose_name="Цена за единицу", null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавлении')
 
     def __str__(self):
         return self.name
-
-    def after_discount(self):
-        return self.price - (self.price * self.discount / 100)
 
     class Meta:
         verbose_name = "Продукт"
@@ -81,13 +77,14 @@ class Sale(models.Model):
     storage = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, verbose_name="Продукт", on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(verbose_name="Кол-во")
-    price_per_unit = models.IntegerField(verbose_name="Цена продажи за единицу")
+    purchase_price_per_unit = models.IntegerField(verbose_name="Цена закупки за единицу", null=True)
+    sale_price_per_unit = models.IntegerField(verbose_name="Цена продажи за единицу")
 
     def __str__(self):
         return self.product.name
 
     def total_sale_price(self):
-        return self.price_per_unit * self.quantity
+        return self.sale_price_per_unit * self.quantity
 
     class Meta:
         verbose_name = "Продажа"

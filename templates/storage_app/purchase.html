@@ -18,23 +18,15 @@
                     <a class="nav-link" href="{% url 'storages' %}">Storages</a>
                     <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
                     <a class="nav-link" href="{% url 'sale' %}">Sale</a>
-                    <a class="nav-link" href="#">Actions</a>
+                    {% comment %} <a class="nav-link" href="#">Actions</a> {% endcomment %}
                 </div>
             </div>
         </div>
     </nav>
 
-    {% for purchase in purchases %}
-    {{ purchase.storage }}
-    {{ purchase.product }}
-    {{ purchase.quantity }}
-    {{ purchase.price_per_unit }}
-    {{ purchase.total_purchase_price }}
-    {% endfor %}
-
     <form action="{% url 'purchase_product'%}" method="post">
         {% csrf_token %}
-        <div class="col col_13 checkout">
+        <div class="">
             Storage:
             <select name="storage">
                 <option selected>Select storage</option>
@@ -44,20 +36,47 @@
             </select>
             Product:
             <select name="product">
-                <option selected>Select storage</option>
+                <option selected>Select product</option>
                 {% for product in products %}
-                <option value="{{ product }}">{{ product.name }}</option>
+                <option value="{{ product }}">{{ product.name }}({{ product.price_per_unit }} so'm)</option>
                 {% endfor %}
             </select>
             Quantity:
-            <input type="number"  style="width:300px;" name="quantity"  />
-            Price per unit:
-            <input type="number"  style="width:300px;" name="price_per_unit"  />
+            <input type="number" style="width:300px;" name="quantity"/>
+            <button type="submit" class="">
+                Purchase
+            </button>
         </div>
-        <button type="submit" class="">
-            Purchase
-        </button>
+        
     </form>
+
+    <div>
+        <p>Сделанные покупки</p>
+    </div>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Склад</th>
+            <th scope="col">Продукт</th>
+            <th scope="col">Штука</th>
+            <th scope="col">Цена за штуку(Сум)</th>
+            <th scope="col">Сумма</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for purchase in purchases %}
+            <tr>
+              <td>{{ purchase.storage }}</td>
+              <td>{{ purchase.product }}</td>
+              <td>{{ purchase.quantity }}</td>
+              <td>{{ purchase.price_per_unit }}</td>
+              <td>{{ purchase.total_purchase_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </body>
 </html>

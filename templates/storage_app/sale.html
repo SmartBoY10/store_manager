@@ -18,19 +18,11 @@
                     <a class="nav-link" href="{% url 'storages' %}">Storages</a>
                     <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
                     <a class="nav-link" href="{% url 'sale' %}">Sale</a>
-                    <a class="nav-link" href="#">Actions</a>
+                    {% comment %} <a class="nav-link" href="#">Actions</a> {% endcomment %}
                 </div>
             </div>
         </div>
     </nav>
-
-    {% for sale in sales %}
-    {{ sale.storage }}
-    {{ sale.product }}
-    {{ sale.quantity }}
-    {{ sale.price_per_unit }}
-    {{ sale.total_sale_price }}
-    {% endfor %}
 
     <form action="{% url 'sale_product'%}" method="post">
         {% csrf_token %}
@@ -44,20 +36,46 @@
             </select>
             Product:
             <select name="product">
-                <option selected>Select storage</option>
+                <option selected>Select product</option>
                 {% for product in products %}
-                <option value="{{ product }}">{{ product.name }}</option>
+                <option value="{{ product }}">{{ product.name }}({{ product.price_per_unit }} So'm)</option>
                 {% endfor %}
             </select>
             Quantity:
             <input type="number"  style="width:300px;" name="quantity"  />
-            Price per unit:
-            <input type="number"  style="width:300px;" name="price_per_unit"  />
+            Sale price per unit:
+            <input type="number"  style="width:300px;" name="sale_price_per_unit"  />
         </div>
         <button type="submit" class="">
             Sale
         </button>
     </form>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Склад</th>
+            <th scope="col">Продукт</th>
+            <th scope="col">Штука</th>
+            <th scope="col">Цена покупки за штуку(Сум)</th>
+            <th scope="col">Цена продажи за штуку(Сум)</th>
+            <th scope="col">Сумма</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+              <td>{{ sale.storage }}</td>
+              <td>{{ sale.product }}</td>
+              <td>{{ sale.quantity }}</td>
+              <td>{{ sale.purchase_price_per_unit }}</td>
+              <td>{{ sale.sale_price_per_unit }}</td>
+              <td>{{ sale.total_sale_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 </body>
 </html>

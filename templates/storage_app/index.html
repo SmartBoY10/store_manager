@@ -18,63 +18,33 @@
               <a class="nav-link" href="{% url 'storages' %}">Storages</a>
               <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
               <a class="nav-link" href="{% url 'sale' %}">Sale</a>
-              <a class="nav-link" href="#">Actions</a>
+              {% comment %} <a class="nav-link" href="#">Actions</a> {% endcomment %}
           </div>
         </div>
     </div>
   </nav>
 
-      
-  <table border="1">
-      {% for storage in storages %}
-          <tr>
-          <td>Склад</td>
-          <td>Штука</td>
-          <td>Сумма</td>
-          </tr>
-          <tr>
-              <td>{{ storage.name }}</td>
-          </tr>
-          {% for product in products %}
-          <tr>
-              <td>{{ product.name }}</td>
-              {% comment %} <td>{{ product.quantity }}</td> {% endcomment %}
-              <td>{{ product.quantity }}</td>
-          </tr>
-          {% endfor %}
-      {% endfor %}
-      <tr>
-          <td>...</td>
-          <td>...</td>
-          <td>...</td>
-      </tr>
-  </table>
-
   <table class="table">
     <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Склад</th>
-        <th scope="col">Штука</th>
-        <th scope="col">Сумма</th>
-      </tr>
-    </thead>
-    <tbody>
       {% for storage in storages %}
       <tr>
-        <th scope="row">{{ storage.id }}</th>
-        <td>{{ storage.name }}</td>
-        {% comment %} <td>Otto</td>
-        <td>@mdo</td> {% endcomment %}
-      </tr>
-      {% for product in products %}
-      <tr>
-        <th scope="row"></th>
-        <td>{{ product.name }}</td>
-        <td>{{ product.quantity }}</td>
-        <td>@mdo</td>
+        <th scope="col">{{ storage.name }}</th>
+        <th scope="col">Продукт</th>
+        <th scope="col">Штука</th>
+        <th scope="col">Цена за штуку(Сум)</th>
+        <th scope="col">Сумма</th>
       </tr>
       {% endfor %}
+    </thead>
+    <tbody>
+      {% for product in products %}
+        <tr>
+          <th scope="row"></th>
+          <td>{{ product.name }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{{ product.price_per_unit }}</td>
+          <td>{{ product.total_cost }}</td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>
