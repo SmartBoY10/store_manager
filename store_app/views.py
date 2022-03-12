@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.views.generic.base import View
 
@@ -5,10 +6,33 @@ from .models import *
 from .forms import *
 
 
+class AboutView(View):
+    def get(self, request):
+        return render(request, "store_app/about.html")
+
+
+class IndexView(View):
+    def get(self, request):
+        products = Product.objects.all()
+        categories = Category.objects.filter(parent=True)
+        context = {"product_list":products, "category_list": categories}
+        return render(request, "store_app/index.html", context)
+
+
 class ProductsView(View):
     def get(self, request):
         products = Product.objects.all()
-        return render(request, "store_app/index.html", {"product_list":products})
+        return render(request, "store_app/products.html", {"product_list":products})
+
+
+class FaqsView(View):
+    def get(self, request):
+        return render(request, "store_app/faqs.html")
+
+
+class ContactView(View):
+    def get(self, request):
+        return render(request, "store_app/contact.html")
 
 
 class ProductDetailView(View):
