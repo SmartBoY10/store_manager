@@ -1,28 +1,9 @@
-<!DOCTYPE html>
+{% extends 'base_storage.html' %}
 {% load static %}
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Storage</title>
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  
-  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css" />
-</head>
+{% block title %}{{ block.super }} - Sale{% endblock title %}
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" href="{% url 'storages' %}">Storages</a>
-                    <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
-                    <a class="nav-link" href="{% url 'sale' %}">Sale</a>
-                    {% comment %} <a class="nav-link" href="#">Actions</a> {% endcomment %}
-                </div>
-            </div>
-        </div>
-    </nav>
+{% block content %}
 
     <form action="{% url 'sale_product'%}" method="post">
         {% csrf_token %}
@@ -51,31 +32,33 @@
         </button>
     </form>
 
+    <div>
+        <p>Продажи</p>
+    </div>
+
     <table class="table">
         <thead>
-          <tr>
+        <tr>
             <th scope="col">Склад</th>
             <th scope="col">Продукт</th>
             <th scope="col">Штука</th>
             <th scope="col">Цена покупки за штуку(Сум)</th>
             <th scope="col">Цена продажи за штуку(Сум)</th>
             <th scope="col">Сумма</th>
-          </tr>
+        </tr>
         </thead>
         <tbody>
             {% for sale in sales %}
             <tr>
-              <td>{{ sale.storage }}</td>
-              <td>{{ sale.product }}</td>
-              <td>{{ sale.quantity }}</td>
-              <td>{{ sale.purchase_price_per_unit }}</td>
-              <td>{{ sale.sale_price_per_unit }}</td>
-              <td>{{ sale.total_sale_price }}</td>
+            <td>{{ sale.storage }}</td>
+            <td>{{ sale.product }}</td>
+            <td>{{ sale.quantity }}</td>
+            <td>{{ sale.purchase_price_per_unit }}</td>
+            <td>{{ sale.sale_price_per_unit }}</td>
+            <td>{{ sale.total_sale_price }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-</body>
-</html>
+{% endblock content %}

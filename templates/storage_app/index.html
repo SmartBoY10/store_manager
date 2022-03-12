@@ -1,29 +1,7 @@
-<!DOCTYPE html>
+{% extends 'base_storage.html' %}
 {% load static %}
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Storage</title>
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  
-  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css" />
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-              <a class="nav-link" href="{% url 'storages' %}">Storages</a>
-              <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
-              <a class="nav-link" href="{% url 'sale' %}">Sale</a>
-              {% comment %} <a class="nav-link" href="#">Actions</a> {% endcomment %}
-          </div>
-        </div>
-    </div>
-  </nav>
-
+{% block content %}
   <table class="table">
     <thead>
       {% for storage in storages %}
@@ -48,7 +26,4 @@
       {% endfor %}
     </tbody>
   </table>
-
-<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-</body>
-</html>
+{% endblock content %}
