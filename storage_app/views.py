@@ -8,7 +8,7 @@ class StorageView(View):
     def get(self, request):
         storages = Storage.objects.all()
         for storage in storages:
-            products = Storage.objects.get(id=storage.id).product.all()
+            products = Product.objects.filter(storege_id=storage.id)
         
 
         context = {"storages": storages, "products": products}
@@ -20,7 +20,7 @@ class PurchaseView(View):
         purchases = Purchase.objects.all()
         storages = Storage.objects.all()
         for storage in storages:
-            products = Storage.objects.get(id=storage.id).product.all()
+            products = Product.objects.filter(storege_id=storage.id)
         context = {"purchases": purchases, "storages": storages, "products": products}
         return render(request, "storage_app/purchase.html", context)
 
@@ -53,7 +53,7 @@ class SaleView(View):
         sales = Sale.objects.all()
         storages = Storage.objects.all()
         for storage in storages:
-            products = Storage.objects.get(id=storage.id).product.all()
+            products = Product.objects.filter(storege_id=storage.id)
         return render(request, "storage_app/sale.html", {"sales": sales, "storages": storages, "products": products})
 
 
