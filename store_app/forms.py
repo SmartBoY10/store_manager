@@ -5,6 +5,10 @@ class AddToCartForm(forms.Form):
     quantity = forms.IntegerField()
 
 
+class AddNewCartForm(forms.Form):
+    quantity = forms.IntegerField()
+
+
 class ConfirOrderForm(forms.Form):
     full_name = forms.CharField(max_length=100)
     address = forms.CharField(max_length=100)

@@ -11,7 +11,9 @@
         <div id="sidebar">
         	<h3>Categories</h3>
             <ul class="sidebar_menu">
-			    <li><a href="#">Aenean et dolor diam</a></li>
+                {% for category in categories %}
+			    <li><a href="#">{{ category.name }}</a></li>
+                {% endfor %}
 			</ul>
         </div> <!-- END of sidebar -->
         
@@ -20,15 +22,13 @@
             <div class="col col_13">
         	<a  rel="lightbox[portfolio]" href=""><img src="{{ product.image.url }}" height="200" width="280" alt="Image 10" /></a>
             </div>
+            <form action="{% url 'add_new_cart_with_quantity' product.id %}" method="post">
+            {% csrf_token %}
             <div class="col col_13 no_margin_right">
                 <table>
                     <tr>
                         <td height="30" width="160">Price:</td>
                         <td>{{ product.price }}</td>
-                    </tr>
-                    <tr>
-                        <td height="30">Availability:</td>
-                        <td>In Stock</td>
                     </tr>
                     <tr>
                         <td height="30">Model:</td>
@@ -38,11 +38,13 @@
                         <td height="30">Manufacturer:</td>
                         <td>{{ product.brand }}</td>
                     </tr>
-                    <tr><td height="30">Quantity</td><td><input type="text" value="1" style="width: 20px; text-align: right" /></td></tr>
+                    <tr><td height="30">Quantity</td><td><input type="text" value="1" name="quantity" style="width: 20px; text-align: right" /></td></tr>
                 </table>
                 <div class="cleaner h20"></div>
-                <a href="shoppingcart.html" class="add_to_cart">Add to Cart</a>
+                {% comment %} <a href="shoppingcart.html" class="add_to_cart">Add to Cart</a> {% endcomment %}
+                <button type="submit">Add to Cart</button>
 			</div>
+            </form>
             <div class="cleaner h30"></div>
             
             <h5><strong>Product Description</strong></h5>

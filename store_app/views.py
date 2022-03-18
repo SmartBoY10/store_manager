@@ -54,13 +54,13 @@ class ContactView(View):
 class ProductDetailView(View):
     def get(self, request, pk):
         product = Product.objects.get(id=pk)
-        return render(request, "store_app/product_detail.html", {"product":product})
+        categories = Category.objects.filter(parent=True)
+        context = {"product":product, "categories": categories}
+        return render(request, "store_app/product_detail.html", context)
 
 
 class AddToCart(View):
     def get(self, request, pk):
-        b = ""
-        o = ""
         s = request.session
         product = Product.objects.get(id=pk)
         try:
@@ -72,15 +72,9 @@ class AddToCart(View):
                 order.total_price += product.price
                 order.save()
             except:
-                o = "order not found"
-
-            if o == "order not found":
                 order = Order.objects.create(buyer=buyer, product=product, quantity=1, total_price=product.price, cart=cart)
 
         except:
-            b = "Not found"
-        
-        if b == "Not found":
             buyer = Buyer.objects.create(session_id=s.session_key)
             cart = Cart.objects.create(buyer=buyer)
             order = Order.objects.create(buyer=buyer, product=product, quantity=1, total_price=product.price, cart=cart)
@@ -90,16 +84,12 @@ class AddToCart(View):
 
 class CartDetailView(View):
     def get(self, request):
-        b = ""
         cart_total_price = 0
         s = request.session
         try:
             buyer = Buyer.objects.get(session_id=s.session_key)
             orders = Order.objects.filter(buyer_id=buyer.id)
         except:
-            b = "Buyer not found"
-
-        if b == "Buyer not found":
             buyer = Buyer.objects.create(session_id=s.session_key)
             Cart.objects.create(buyer=buyer)
             orders = Order.objects.filter(buyer_id=buyer.id)
@@ -121,6 +111,39 @@ class AddToCartWithQuantity(View):
             order.quantity = quantity
             order.total_price = order.product.price * quantity
             order.save()
+
+        return redirect("/cart-detail")
+
+
+class AddNewCartWithQuantity(View):
+    def post(self, request, pk):
+        s = request.session
+        product = Product.objects.get(id=pk)
+        form = AddNewCartForm(request.POST)
+        if form.is_valid():
+            quantity = form.cleaned_data['quantity']
+            try:
+                buyer = Buyer.objects.get(session_id=s.session_key)
+                cart = Cart.objects.get(buyer_id=buyer.id)
+                try:
+                    order = Order.objects.get(buyer_id=buyer.id)
+                    order.quantity += quantity
+                    order.total_price += quantity * product.price
+                    order.save()
+                except:
+                    order = Order.objects.create(buyer=buyer, 
+                                                product=product, 
+                                                quantity=quantity, 
+                                                total_price=product.price, 
+                                                cart=cart)
+            except:
+                buyer = Buyer.objects.create(session_id=s.session_key)
+                cart = Cart.objects.create(buyer=buyer)
+                order = Order.objects.create(buyer=buyer, 
+                                            product=product, 
+                                            quantity=quantity, 
+                                            total_price=product.price, 
+                                            cart=cart)
 
         return redirect("/cart-detail")
 
@@ -148,7 +171,7 @@ class Confirm(View):
         if form.is_valid():
             buyer = Buyer.objects.get(id=pk)
             orders = Order.objects.filter(buyer_id=pk)
-            status = Status.objects.get(status_type='NOT_SERVED')
+            status = Status.objects.get(status_type='NOT SERVED')
             pay_type = PayType.objects.get(pay_type=form.cleaned_data['pay_type'])
 
             orders_dict = {}
