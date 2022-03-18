@@ -6,7 +6,7 @@
         <img src="{% static 'images/templatemo_image_01.png' %}" alt="Image 01" />
         <h1>Introducing Web Store</h1>
         <p>Web Store is a free css template for your personal or commercial websites. Feel free to download, edit and use this template for any purpose.</p>
-        <a href="#" class="buy_now">Browse All Products</a>
+        <a href="{% url 'products' %}" class="buy_now">Browse All Products</a>
     </div> <!-- END of middle -->
 {% endblock middle_head %}
 
@@ -18,12 +18,12 @@
             <div id="SlideItMoo_outer">	
                 <div id="SlideItMoo_inner">			
                     <div id="SlideItMoo_items">
-
+                        {% for product in product_list %}
                         <div class="SlideItMoo_element">
-                                <a href="#slide1" target="_parent">
-                                <img src="{% static 'images/gallery/01.jpg' %}" alt="product 1" /></a>
+                                <a href="{% url 'product_detail' product.id %}" target="_parent">
+                                <img src="{{ product.image.url }}" width="150" height="215" alt="product 1" /></a>
                         </div>
-
+                        {% endfor %}
                     </div>			
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <h3>Categories</h3>
             <ul class="sidebar_menu">
                 {% for category in category_list %}
-                <li><a href="#">{{ category.name }}</a></li>
+                <li><a href="{% url 'by_category' category.id %}">{{ category.name }}</a></li>
                 {% endfor %}
             </ul>
         </div> <!-- END of sidebar -->
@@ -45,7 +45,7 @@
         <div id="content">
             {% for product in product_list %}
             <div class="col col_14 product_gallery">
-                <a href="{{ product.get_absolute_url }}"><img height="170" width="170" src="{{ product.image.url }}" alt="Product 01" /></a>
+                <a href="{% url 'product_detail' product.id %}"><img height="170" width="170" src="{{ product.image.url }}" alt="Product 01" /></a>
                 <h3>{{ product.name }}</h3>
                 <p class="product_price">{{ product.price }}</p>
                 <p>{{ product.after_discount }}</p>

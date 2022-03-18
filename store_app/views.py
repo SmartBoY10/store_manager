@@ -1,3 +1,4 @@
+from itertools import product
 from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.views.generic.base import View
@@ -22,7 +23,22 @@ class IndexView(View):
 class ProductsView(View):
     def get(self, request):
         products = Product.objects.all()
-        return render(request, "store_app/products.html", {"product_list":products})
+        categories = Category.objects.filter(parent=True)
+        context = {"product_list":products, "category_list": categories}
+        return render(request, "store_app/products.html", context)
+
+
+class ProductDetailView(View):
+    def get(self, request, pk):
+        product = Product.objects.get(id=pk)
+        return render(request, "store_app/product_detail.html", {"product":product})
+
+
+class ProductsByCategoryView(View):
+    def get(self, request, pk):
+        products = Product.objects.filter(category_id=pk)
+        context = {"products": products}
+        return render(request, "store_app/products_by_category.html", context)
 
 
 class FaqsView(View):

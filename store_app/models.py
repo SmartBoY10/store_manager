@@ -53,7 +53,7 @@ class Product(models.Model):
     discount = models.PositiveSmallIntegerField(verbose_name="Скидка в %")
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey(Brand, verbose_name="Бренд", on_delete=models.SET_NULL, null=True)
-    image = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Фото', blank=True)
+    image = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name='Фото', blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     view_count = models.PositiveIntegerField(verbose_name="Кол-во просмотров")
     quantity = models.PositiveIntegerField(verbose_name="Кол-во в складе", default=0)
