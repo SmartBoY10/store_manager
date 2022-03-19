@@ -11,35 +11,6 @@
             <div id="SlideItMoo_outer">	
                 <div id="SlideItMoo_inner">			
                     <div id="SlideItMoo_items">
-                        {% comment %} <div class="SlideItMoo_element">
-                                <a href="#1" target="_parent">
-                                <img  src="images/gallery/01.jpg" alt="product 1" /></a>
-                        </div>	
-                        <div class="SlideItMoo_element">
-                                <a href="#2" target="_parent">
-                                <img src="images/gallery/02.jpg" alt="product 1" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#3" target="_parent">
-                                    <img src="images/gallery/03.jpg" alt="product 1" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#4" target="_parent">
-                                <img src="images/gallery/04.jpg" alt="product 1" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#5" target="_parent">
-                                <img src="images/gallery/05.jpg" alt="product 1" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#6" target="_parent">
-                                <img src="images/gallery/06.jpg" alt="product 1" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#7" target="_parent">
-                                <img src="images/gallery/07.jpg" alt="product 1" /></a>
-                        </div>
-                         {% endcomment %}
                         {% for product in product_list %}
                             <div class="SlideItMoo_element">
                                 <a href="{% url 'product_detail' product.id %}" target="_parent">

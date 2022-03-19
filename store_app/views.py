@@ -22,9 +22,18 @@ class IndexView(View):
 
 class ProductsView(View):
     def get(self, request):
-        products = Product.objects.all()
+        products_slider = Product.objects.all()
+        # categories = Category.objects.filter(parent=True)
         categories = Category.objects.filter(parent=True)
-        context = {"product_list":products, "category_list": categories}
+        # product_list = {}
+        # list = []
+        # for category in categories:
+        #     products = Product.objects.filter(category_id=category.id)
+            # list.append(products)
+            # product_list[category.name] = list
+        print(categories)
+        context = {"category_list": categories,
+                    "products_slider": products_slider}
         return render(request, "store_app/products.html", context)
 
 

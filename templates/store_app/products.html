@@ -11,7 +11,7 @@
             <div id="SlideItMoo_outer">	
                 <div id="SlideItMoo_inner">			
                     <div id="SlideItMoo_items">
-                        {% for product in product_list %}
+                        {% for product in products_slider %}
                             <div class="SlideItMoo_element">
                                 <a href="{% url 'product_detail' product.id %}" target="_parent">
                                 <img src="{{ product.image.url }}" width="150" height="215" alt="product 1" /></a>
@@ -33,17 +33,19 @@
         </div> <!-- END of sidebar -->
         
         <div id="content">
-            <h2>Etiam In Tellus</h2>
-            {% for product in product_list %}
-            <div class="col col_14 product_gallery">
-                <a href="{% url 'product_detail' product.id %}"><img src="{{ product.image.url }}" height="170" width="170" alt="Product 01" /></a>
-                <h3>{{ product.name }}</h3>
-                <p class="product_price">$ {{ product.price }}</p>
-                <a href="{% url 'add_to_cart' product.pk %}" class="add_to_cart">Add to Cart</a>
-            </div>
-            {% endfor %}
+            {% for category in category_list %}
+            <h2>{{ category.name }}</h2>
+                {% for product in category.product_set.all %}
+                <div class="col col_14 product_gallery">
+                    <a href="{% url 'product_detail' product.id %}"><img src="{{ product.image.url }}" height="170" width="170" alt="Product 01" /></a>
+                    <h3>{{ product.name }}</h3>
+                    <p class="product_price">$ {{ product.price }}</p>
+                    <a href="{% url 'add_to_cart' product.pk %}" class="add_to_cart">Add to Cart</a>
+                </div>
+                {% endfor %}
             <a href="#" class="more float_r">View all</a>
             <div class="cleaner h50"></div>
+            {% endfor %}
         </div> <!-- END of content -->
         <div class="cleaner"></div>
     </div> <!-- END of main -->
