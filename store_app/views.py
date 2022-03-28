@@ -135,7 +135,7 @@ class AddNewCartWithQuantity(View):
                 buyer = Buyer.objects.get(session_id=s.session_key)
                 cart = Cart.objects.get(buyer_id=buyer.id)
                 try:
-                    order = Order.objects.get(buyer_id=buyer.id)
+                    order = Order.objects.get(product_id=product.id, buyer_id=buyer.id)
                     order.quantity += quantity
                     order.total_price += quantity * product.price
                     order.save()
