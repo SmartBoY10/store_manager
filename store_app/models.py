@@ -84,6 +84,9 @@ class Buyer(models.Model):
 class Cart(models.Model):
     buyer = models.ForeignKey(Buyer, verbose_name="Клиент", on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return self.buyer
+
     class Meta:
         verbose_name = "Корзина"
         verbose_name_plural = "Корзины"
@@ -95,6 +98,9 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField(verbose_name="Кол-во продукта", default=1)
     total_price = models.PositiveIntegerField(verbose_name="Общая сумма", default=0)
     cart = models.ForeignKey(Cart, verbose_name="Корзина", on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.buyer
 
     class Meta:
         verbose_name = "Заказ"
