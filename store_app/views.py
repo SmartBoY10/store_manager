@@ -143,7 +143,7 @@ class AddNewCartWithQuantity(View):
                     order = Order.objects.create(buyer=buyer, 
                                                 product=product, 
                                                 quantity=quantity, 
-                                                total_price=product.price, 
+                                                total_price=product.price * quantity, 
                                                 cart=cart)
             except:
                 buyer = Buyer.objects.create(session_id=s.session_key)
@@ -151,7 +151,7 @@ class AddNewCartWithQuantity(View):
                 order = Order.objects.create(buyer=buyer, 
                                             product=product, 
                                             quantity=quantity, 
-                                            total_price=product.price, 
+                                            total_price=product.price * quantity, 
                                             cart=cart)
 
         return redirect("/cart-detail")
