@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>{% block title %}Storage{% endblock title %}</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css" />
+</head>
+
+<body>
+  
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="{% url 'storages' %}">Storages</a>
+                    <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
+                    <a class="nav-link" href="{% url 'sale' %}">Sale</a>
+                    {% comment %} <a class="nav-link" href="#">Actions</a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <table class="table">
+        <thead>
+          {% for storage in storages %}
+          <tr>
+            <th scope="col">{{ storage.name }}</th>
+            <th scope="col">Продукт</th>
+            <th scope="col">Штука</th>
+            <th scope="col">Цена за штуку(Сум)</th>
+            <th scope="col">Общая себестоимость продукта</th>
+          </tr>
+          {% endfor %}
+        </thead>
+        <tbody>
+          {% for product in products %}
+            <tr>
+              <th scope="row"></th>
+              <td>{{ product.name }}</td>
+              <td>{{ product.quantity }}</td>
+              <td>{{ product.price_per_unit }}</td>
+              <td>{{ product.total_cost }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

@@ -18,4 +18,10 @@ urlpatterns = [
     path('cart/confirm-delete/<int:pk>/', ConfirmDelete.as_view(), name='confirm_delete'),
     path('take-order/<int:pk>/', TakeOrder.as_view(), name='take-order'),
     path('confirm/<int:pk>/', Confirm.as_view(), name='confirm'),
+    path('storage/', StorageView.as_view(), name='storage'),
+    path('purchase/', PurchaseView.as_view(), name='purchase'),
+    path('sale/', SaleView.as_view(), name='sale'),
+    path('storages/', StorageView.as_view(), name='storages'),
+    path('purchase-product/', PurchaseProduct.as_view(), name='purchase_product'),
+    path('sale-product/', SaleProduct.as_view(), name='sale_product'),
 ]

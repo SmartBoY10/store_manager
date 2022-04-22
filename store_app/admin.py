@@ -10,6 +10,9 @@ admin.site.register(Cart)
 admin.site.register(Order)
 # admin.site.register(Journal)
 admin.site.register(PayType)
+admin.site.register(Storage)
+admin.site.register(Purchase)
+admin.site.register(Sale)
 
 @admin.register(Buyer)
 class BuyerAdmin(admin.ModelAdmin):

@@ -4,7 +4,7 @@ from .models import *
 from .forms import *
 
 
-class StorageView(View):
+class StorageViewS(View):
     def get(self, request):
         storages = Storage.objects.all()
         for storage in storages:
@@ -15,7 +15,7 @@ class StorageView(View):
         return render(request, "storage_app/index.html", context)
 
 
-class PurchaseView(View):
+class PurchaseViewS(View):
     def get(self, request):
         purchases = Purchase.objects.all()
         storages = Storage.objects.all()
@@ -25,7 +25,7 @@ class PurchaseView(View):
         return render(request, "storage_app/purchase.html", context)
 
 
-class PurchaseProduct(View):
+class PurchaseProductS(View):
     def post(self, request):
         form = PurchaseForm(request.POST)
         if form.is_valid():
@@ -48,7 +48,7 @@ class PurchaseProduct(View):
         return redirect("/storage")
 
 
-class SaleView(View):
+class SaleViewS(View):
     def get(self, request):
         sales = Sale.objects.all()
         storages = Storage.objects.all()
@@ -57,7 +57,7 @@ class SaleView(View):
         return render(request, "storage_app/sale.html", {"sales": sales, "storages": storages, "products": products})
 
 
-class SaleProduct(View):
+class SaleProductS(View):
     def post(self, request):
         form = SaleForm(request.POST)
         if form.is_valid():

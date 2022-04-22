@@ -15,3 +15,16 @@ class ConfirOrderForm(forms.Form):
     phone = forms.CharField(max_length=20)
     city = forms.CharField(max_length=50)
     pay_type = forms.CharField(max_length=50)
+
+
+class PurchaseForm(forms.Form):
+    storage = forms.CharField(max_length=55)
+    product = forms.CharField(max_length=55)
+    quantity = forms.IntegerField()
+
+
+class SaleForm(forms.Form):
+    storage = forms.CharField(max_length=55)
+    product = forms.CharField(max_length=55)
+    quantity = forms.IntegerField()
+    sale_price_per_unit = forms.IntegerField()
