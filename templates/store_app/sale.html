@@ -39,7 +39,7 @@
             <select name="product">
                 <option selected>Select product</option>
                 {% for product in products %}
-                <option value="{{ product }}">{{ product.name }}({{ product.price_per_unit }} So'm)</option>
+                <option value="{{ product }}">{{ product.name }}({{ product.price }} So'm)</option>
                 {% endfor %}
             </select>
             Quantity:
@@ -65,7 +65,7 @@
             <th scope="col">Цена покупки за штуку(Сум)</th>
             <th scope="col">Цена продажи за штуку(Сум)</th>
             <th scope="col">Общая себестоимость продукта</th>
-            <th scope="col">Сумма</th>
+            <th scope="col">Сумма продажи</th>
             <th scope="col">Прыбиль</th>
         </tr>
         </thead>

@@ -233,7 +233,7 @@ class PurchaseProduct(View):
             storage = Storage.objects.get(name=form.cleaned_data['storage'])
             product = Product.objects.get(name=form.cleaned_data['product'])
             quantity = form.cleaned_data['quantity']
-            price_per_unit = product.price_per_unit
+            price_per_unit = product.price
 
             Purchase.objects.create(
                 storage=storage,
@@ -255,7 +255,7 @@ class SaleView(View):
         storages = Storage.objects.all()
         for storage in storages:
             products = Product.objects.filter(storege_id=storage.id)
-        return render(request, "storage_app/sale.html", {"sales": sales, "storages": storages, "products": products})
+        return render(request, "store_app/sale.html", {"sales": sales, "storages": storages, "products": products})
 
 
 class SaleProduct(View):
@@ -265,7 +265,7 @@ class SaleProduct(View):
             storage = Storage.objects.get(name=form.cleaned_data['storage'])
             product = Product.objects.get(name=form.cleaned_data['product'])
             quantity = form.cleaned_data['quantity']
-            purchase_price_per_unit = product.price_per_unit
+            purchase_price_per_unit = product.price
             sale_price_per_unit = form.cleaned_data['sale_price_per_unit']
             Sale.objects.create(
                 storage=storage,
