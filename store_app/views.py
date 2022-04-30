@@ -1,4 +1,5 @@
 from itertools import product
+from math import prod
 from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.views.generic.base import View
@@ -63,6 +64,8 @@ class ContactView(View):
 class ProductDetailView(View):
     def get(self, request, pk):
         product = Product.objects.get(id=pk)
+        product.view_count += 1
+        product.save()
         categories = Category.objects.filter(parent=True)
         context = {"product":product, "categories": categories}
         return render(request, "store_app/product_detail.html", context)
@@ -190,6 +193,9 @@ class Confirm(View):
                                         "Quantity": order.quantity, 
                                         "Total price": order.total_price
                                         }
+                product = Product.objects.get(id=order.product.id)
+                product.quantity -= order.quantity
+                product.save()
 
             Journal.objects.create(
                 full_name=form.cleaned_data['full_name'],
