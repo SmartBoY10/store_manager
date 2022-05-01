@@ -33,7 +33,7 @@
                     <td>{{ order.product.name }}</td>
                     <td align="center" hidden="True"><input type="text" value="{{ order.id }}" name="cart_id" style="width: 20px; text-align: right" /></td>
                     <td align="center"><input type="text" value="{{ order.quantity }}" name="quantity"  style="width: 20px; text-align: right" /> </td>
-                    <td align="right">{{ order.product.price }} </td>
+                    <td align="right">{{ order.product.get_sale_price }} </td>
                     <td align="right">{{ order.total_price }} </td>
                     <td align="center"> <a href="{% url 'delete_from_cart' order.id %}"><img src="{% static 'images/remove_x.gif' %}" alt="remove" /><br />Remove</a> </td>
                 </tr>

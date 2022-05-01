@@ -61,8 +61,9 @@ class Product(models.Model):
     short_name = models.CharField(verbose_name="Короткое название", max_length=50)
     description = models.TextField(verbose_name="Описание")
     storege = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
-    price = models.PositiveIntegerField(verbose_name="Цена")
-    total_cost = models.PositiveIntegerField(verbose_name="Общая себестоимость продукта", default=0)
+    purchase_price_per_unit = models.PositiveIntegerField(verbose_name="Цена покупки(за единицу)", null=True)
+    sale_price_per_unit = models.PositiveIntegerField(verbose_name="Цена продажи(за единицу)", null=True)
+    # total_cost = models.PositiveIntegerField(verbose_name="Общая себестоимость продукта", default=0)
     quantity = models.PositiveIntegerField(verbose_name="Кол-во в складе", default=0)
     discount = models.PositiveSmallIntegerField(verbose_name="Скидка в %")
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
@@ -76,8 +77,14 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    def after_discount(self):
-        return self.price - (self.price * self.discount / 100)
+    def get_sale_price(self):
+        if self.discount:
+            return self.sale_price_per_unit - (self.sale_price_per_unit * self.discount / 100)
+        else:
+            return self.sale_price_per_unit
+
+    def total_cost(self):
+        return self.purchase_price_per_unit * self.quantity
 
     class Meta:
         verbose_name = "Продукт"
@@ -112,6 +119,9 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField(verbose_name="Кол-во продукта", default=1)
     total_price = models.PositiveIntegerField(verbose_name="Общая сумма", default=0)
     cart = models.ForeignKey(Cart, verbose_name="Корзина", on_delete=models.CASCADE, null=True)
+
+    # def total_price(self):
+    #     return int(self.quantity * self.product.get_sale_price)
 
     # def __str__(self):
     #     return self.buyer
@@ -158,7 +168,7 @@ class Purchase(models.Model):
 
 
 class Sale(models.Model):
-    storage = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
+    # storage = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, verbose_name="Продукт", on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(verbose_name="Кол-во")
     date_of_purchase = models.DateTimeField(auto_now_add=True, verbose_name='Дата продажи', null=True)

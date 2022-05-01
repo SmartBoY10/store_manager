@@ -81,15 +81,15 @@ class AddToCart(View):
             try:
                 order = Order.objects.get(product_id=product.id, buyer_id=buyer.id)
                 order.quantity += 1
-                order.total_price += product.price
+                order.total_price += product.get_sale_price()
                 order.save()
             except:
-                order = Order.objects.create(buyer=buyer, product=product, quantity=1, total_price=product.price, cart=cart)
+                order = Order.objects.create(buyer=buyer, product=product, quantity=1, total_price=product.get_sale_price(), cart=cart)
 
         except:
             buyer = Buyer.objects.create(session_id=s.session_key)
             cart = Cart.objects.create(buyer=buyer)
-            order = Order.objects.create(buyer=buyer, product=product, quantity=1, total_price=product.price, cart=cart)
+            order = Order.objects.create(buyer=buyer, product=product, quantity=1, total_price=product.get_sale_price(), cart=cart)
 
         return redirect("/cart-detail")
 
@@ -121,7 +121,7 @@ class AddToCartWithQuantity(View):
             quantity = form.cleaned_data['quantity']
             order = Order.objects.get(id=cart_id)
             order.quantity = quantity
-            order.total_price = order.product.price * quantity
+            order.total_price = order.product.get_sale_price * quantity
             order.save()
 
         return redirect("/cart-detail")
@@ -140,13 +140,13 @@ class AddNewCartWithQuantity(View):
                 try:
                     order = Order.objects.get(product_id=product.id, buyer_id=buyer.id)
                     order.quantity += quantity
-                    order.total_price += quantity * product.price
+                    order.total_price += quantity * product.get_sale_price
                     order.save()
                 except:
                     order = Order.objects.create(buyer=buyer, 
                                                 product=product, 
                                                 quantity=quantity, 
-                                                total_price=product.price * quantity, 
+                                                total_price=product.get_sale_price * quantity, 
                                                 cart=cart)
             except:
                 buyer = Buyer.objects.create(session_id=s.session_key)
@@ -154,7 +154,7 @@ class AddNewCartWithQuantity(View):
                 order = Order.objects.create(buyer=buyer, 
                                             product=product, 
                                             quantity=quantity, 
-                                            total_price=product.price * quantity, 
+                                            total_price=product.get_sale_price * quantity, 
                                             cart=cart)
 
         return redirect("/cart-detail")
@@ -193,7 +193,16 @@ class Confirm(View):
                                         "Quantity": order.quantity, 
                                         "Total price": order.total_price
                                         }
+
                 product = Product.objects.get(id=order.product.id)
+
+                Sale.objects.create(
+                    product=product,
+                    quantity=order.quantity,
+                    purchase_price_per_unit=product.purchase_price_per_unit,
+                    sale_price_per_unit=product.sale_price_per_unit
+                )
+                # product.total_cost -= (order.quantity * purchase_price_per_unit)
                 product.quantity -= order.quantity
                 product.save()
 
@@ -281,6 +290,6 @@ class SaleProduct(View):
                 sale_price_per_unit=sale_price_per_unit
             )
             product.total_cost -= (quantity * purchase_price_per_unit)
-            product.quantity -= form.cleaned_data['quantity']
+            product.quantity -= quantity
             product.save()
         return redirect("/storage")

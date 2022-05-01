@@ -47,8 +47,8 @@
             <div class="col col_14 product_gallery">
                 <a href="{% url 'product_detail' product.id %}"><img height="170" width="170" src="{{ product.image.url }}" alt="Product 01" /></a>
                 <h3>{{ product.name }}</h3>
-                <p class="product_price">{{ product.price }}</p>
-                <p>{{ product.after_discount }}</p>
+                <p class="product_price">{{ product.sale_price_per_unit }}</p>
+                <p>{{ product.get_sale_price }}</p>
                 <a href="{% url 'add_to_cart' product.pk %}" class="add_to_cart">Add to Cart</a>
             </div>
             {% endfor %}
