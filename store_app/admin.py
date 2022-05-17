@@ -21,8 +21,9 @@ class BuyerAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "purchase_price_per_unit", "sale_price_per_unit", "quantity", "total_cost")
+    list_display = ("id", "name", "purchase_price_per_unit", "quantity", "sale_price_per_unit")
     list_display_links = ("id", "name")
+    readonly_fields = ("quantity",)
 
 @admin.register(Journal)
 class JournalAdmin(admin.ModelAdmin):

@@ -39,7 +39,7 @@
             <select name="product">
                 <option selected>Select product</option>
                 {% for product in products %}
-                <option value="{{ product }}">{{ product.name }}({{ product.price_per_unit }} so'm)</option>
+                <option value="{{ product }}">{{ product.name }}({{ product.purchase_price_per_unit }} so'm)</option>
                 {% endfor %}
             </select>
             Quantity:

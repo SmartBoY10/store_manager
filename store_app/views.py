@@ -121,7 +121,7 @@ class AddToCartWithQuantity(View):
             quantity = form.cleaned_data['quantity']
             order = Order.objects.get(id=cart_id)
             order.quantity = quantity
-            order.total_price = order.product.get_sale_price * quantity
+            order.total_price = order.product.get_sale_price() * quantity
             order.save()
 
         return redirect("/cart-detail")
@@ -140,13 +140,13 @@ class AddNewCartWithQuantity(View):
                 try:
                     order = Order.objects.get(product_id=product.id, buyer_id=buyer.id)
                     order.quantity += quantity
-                    order.total_price += quantity * product.get_sale_price
+                    order.total_price +=product.get_sale_price() * quantity
                     order.save()
                 except:
                     order = Order.objects.create(buyer=buyer, 
                                                 product=product, 
                                                 quantity=quantity, 
-                                                total_price=product.get_sale_price * quantity, 
+                                                total_price=product.get_sale_price() * quantity, 
                                                 cart=cart)
             except:
                 buyer = Buyer.objects.create(session_id=s.session_key)
@@ -154,7 +154,7 @@ class AddNewCartWithQuantity(View):
                 order = Order.objects.create(buyer=buyer, 
                                             product=product, 
                                             quantity=quantity, 
-                                            total_price=product.get_sale_price * quantity, 
+                                            total_price=product.get_sale_price() * quantity, 
                                             cart=cart)
 
         return redirect("/cart-detail")
@@ -244,11 +244,10 @@ class PurchaseProduct(View):
     def post(self, request):
         form = PurchaseForm(request.POST)
         if form.is_valid():
-            print("form.cleaned_data['storage']")
             storage = Storage.objects.get(name=form.cleaned_data['storage'])
             product = Product.objects.get(name=form.cleaned_data['product'])
             quantity = form.cleaned_data['quantity']
-            price_per_unit = product.price
+            price_per_unit = product.purchase_price_per_unit
 
             Purchase.objects.create(
                 storage=storage,
@@ -256,7 +255,7 @@ class PurchaseProduct(View):
                 quantity=quantity,
                 price_per_unit=price_per_unit
             )
-            product.total_cost += (quantity * price_per_unit)
+            # product.total_cost += (quantity * price_per_unit)
             product.quantity += quantity
             product.save()
         else:
