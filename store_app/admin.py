@@ -12,7 +12,7 @@ admin.site.register(Order)
 admin.site.register(PayType)
 admin.site.register(Storage)
 admin.site.register(Purchase)
-admin.site.register(Sale)
+# admin.site.register(Sale)
 
 @admin.register(Buyer)
 class BuyerAdmin(admin.ModelAdmin):
@@ -30,3 +30,7 @@ class JournalAdmin(admin.ModelAdmin):
     list_display = ("full_name", "address", "phone", "pay_type", "status", "created_at", "served_at")
     list_display_links = ("full_name",)
     readonly_fields = ("full_name", "address", "phone", "pay_type", "orders")
+
+@admin.register(Sale)
+class SaleAdmin(admin.ModelAdmin):
+    list_display = ("product", "quantity", "date_of_purchase")

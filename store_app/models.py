@@ -69,7 +69,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey(Brand, verbose_name="Бренд", on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to='photos/%Y/%m/%d', verbose_name='Фото', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
+    created_at = models.DateField(auto_now_add=True, verbose_name='Дата публикации')
     view_count = models.PositiveIntegerField(verbose_name="Кол-во просмотров")
     quantity = models.PositiveIntegerField(verbose_name="Кол-во в складе", default=0)
     url = models.SlugField(max_length=160, unique=True, null=True)
@@ -171,7 +171,7 @@ class Sale(models.Model):
     # storage = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, verbose_name="Продукт", on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(verbose_name="Кол-во")
-    date_of_purchase = models.DateTimeField(auto_now_add=True, verbose_name='Дата продажи', null=True)
+    date_of_purchase = models.DateField(auto_now_add=True, verbose_name='Дата продажи', null=True)
     purchase_price_per_unit = models.IntegerField(verbose_name="Цена закупки за единицу", null=True)
     sale_price_per_unit = models.IntegerField(verbose_name="Цена продажи за единицу")
 

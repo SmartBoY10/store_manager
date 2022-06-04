@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Dashboard</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css" />
+</head>
+
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<body>
+
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+    </figure>
+    
+    <script type="text/javascript">
+
+        Highcharts.chart('container', {
+
+            title: {
+                text: 'Сумма проданных продуктов в последнем месяце'
+            },
+        
+            yAxis: {
+                title: {
+                    text: 'Сумма заказов'
+                }
+            },
+        
+            xAxis: {
+                categories: {{ categories|safe }}
+            },
+        
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+        
+            {% comment %} plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 2010
+                }
+            }, {% endcomment %}
+        
+            series: [{
+                name: 'Sum',
+                data: {{ series|safe }},
+            }],
+        
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        
+        });
+
+        {% comment %} Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Сумма проданных продуктов'
+            },
+            xAxis: {
+                categories: {{ categories|safe }}
+            },
+            series: [{
+                name: 'Суммов',
+                data: {{ series|safe }},
+                color: 'green'
+            }]
+        }); {% endcomment %}
+
+    </script>
+</body>

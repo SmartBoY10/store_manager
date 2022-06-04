@@ -1,7 +1,8 @@
-from itertools import product
-from math import prod
-from multiprocessing import context
+from dbm import dumb
+import json
 from django.shortcuts import redirect, render
+import datetime
+from django.db.models import Count, Q
 from django.views.generic.base import View
 
 from .models import *
@@ -288,7 +289,34 @@ class SaleProduct(View):
                 purchase_price_per_unit=purchase_price_per_unit,
                 sale_price_per_unit=sale_price_per_unit
             )
-            product.total_cost -= (quantity * purchase_price_per_unit)
+            # product.total_cost -= (quantity * purchase_price_per_unit)
             product.quantity -= quantity
             product.save()
         return redirect("/storage")
+
+
+class Dashboard(View):
+    def get(self, request):
+        sales = Sale.objects.all()
+        dates = []
+        dataset = []
+        for sale in sales:
+            dates.append(str(sale.date_of_purchase))
+
+        for date in set(dates):
+            sum_of_sales = 0
+            for sale in sales:
+                if date == str(sale.date_of_purchase):
+                    sum_of_sales += sale.total_sale_price()
+            dataset.append({'date': date, 'sum': sum_of_sales})
+
+        categories = list()
+        series = list()
+        for entry in dataset:
+            categories.append(entry['date'])
+            series.append(entry['sum'])
+    
+        return render(request, "store_app/dashboard.html", {
+            'categories': json.dumps(categories),
+            'series': json.dumps(series)
+        })

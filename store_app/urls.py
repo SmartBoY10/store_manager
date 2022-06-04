@@ -24,4 +24,5 @@ urlpatterns = [
     path('storages/', StorageView.as_view(), name='storages'),
     path('purchase-product/', PurchaseProduct.as_view(), name='purchase_product'),
     path('sale-product/', SaleProduct.as_view(), name='sale_product'),
+    path('dashboard/', Dashboard.as_view(), name='dashboard'),
 ]
