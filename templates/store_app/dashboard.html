@@ -42,15 +42,6 @@
                 verticalAlign: 'middle'
             },
         
-            {% comment %} plotOptions: {
-                series: {
-                    label: {
-                        connectorAllowed: false
-                    },
-                    pointStart: 2010
-                }
-            }, {% endcomment %}
-        
             series: [{
                 name: 'Sum',
                 data: {{ series|safe }},

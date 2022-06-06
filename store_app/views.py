@@ -16,7 +16,7 @@ class AboutView(View):
 
 class IndexView(View):
     def get(self, request):
-        products = Product.objects.all()
+        products = Product.objects.raw('select * from store_app_product where quantity > 0')
         categories = Category.objects.filter(parent=True)
         context = {"product_list":products, "category_list": categories}
         return render(request, "store_app/index.html", context)
@@ -297,13 +297,13 @@ class SaleProduct(View):
 
 class Dashboard(View):
     def get(self, request):
-        sales = Sale.objects.all()
+        sales = Sale.objects.raw("select * from store_app_sale where date_of_purchase BETWEEN DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1  month') AND (DATE_TRUNC('month', CURRENT_DATE) - interval '1 day') ORDER BY date_of_purchase")
         dates = []
         dataset = []
         for sale in sales:
             dates.append(str(sale.date_of_purchase))
 
-        for date in set(dates):
+        for date in sorted(set(dates)):
             sum_of_sales = 0
             for sale in sales:
                 if date == str(sale.date_of_purchase):
