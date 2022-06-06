@@ -295,28 +295,69 @@ class SaleProduct(View):
         return redirect("/storage")
 
 
-class Dashboard(View):
+class LastMonth(View):
     def get(self, request):
-        sales = Sale.objects.raw("select * from store_app_sale where date_of_purchase BETWEEN DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1  month') AND (DATE_TRUNC('month', CURRENT_DATE) - interval '1 day') ORDER BY date_of_purchase")
+        sales_for_month = Sale.objects.raw("select * from store_app_sale where date_of_purchase BETWEEN DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1  month') AND (DATE_TRUNC('month', CURRENT_DATE) - interval '1 day') ORDER BY date_of_purchase")
         dates = []
-        dataset = []
-        for sale in sales:
+        dataset_1 = []
+
+        #Logic for month
+        for sale in sales_for_month:
             dates.append(str(sale.date_of_purchase))
 
         for date in sorted(set(dates)):
             sum_of_sales = 0
-            for sale in sales:
+            for sale in sales_for_month:
                 if date == str(sale.date_of_purchase):
                     sum_of_sales += sale.total_sale_price()
-            dataset.append({'date': date, 'sum': sum_of_sales})
+            dataset_1.append({'date': date, 'sum': sum_of_sales})
+
+        last_month_categories = list()
+        last_month_series = list()
+        for entry in dataset_1:
+            last_month_categories.append(entry['date'])
+            last_month_series.append(entry['sum'])
+    
+        return render(request, "store_app/dashboard.html", {
+            'last_month_categories': json.dumps(last_month_categories),
+            'last_month_series': json.dumps(last_month_series),
+        })
+
+
+class LastYear(View):
+    def get(self, request):
+        sales_year = Sale.objects.raw("SELECT 1 as id, month, SUM(sale_price_per_unit*quantity) FROM store_app_sale JOIN LATERAL EXTRACT(MONTH FROM date_of_purchase) month ON TRUE WHERE date_of_purchase IS NOT NULL GROUP BY month ORDER BY month")
+        months = {}
+        dataset = []
+
+        def months(argument):
+            switcher = {
+                1: "January",
+                2: "February",
+                3: "March",
+                4: "April",
+                5: "May",
+                6: "June",
+                7: "July",
+                8: "August",
+                9: "September",
+                10: "October",
+                11: "November",
+                12: "December"
+
+            }
+            return switcher[argument]
+        
+        for sale in sales_year:
+            dataset.append({'month': months(sale.month), 'sum': sale.sum})
 
         categories = list()
         series = list()
         for entry in dataset:
-            categories.append(entry['date'])
+            categories.append(entry['month'])
             series.append(entry['sum'])
     
-        return render(request, "store_app/dashboard.html", {
+        return render(request, "store_app/last_year.html", {
             'categories': json.dumps(categories),
             'series': json.dumps(series)
         })

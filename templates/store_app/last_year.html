@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Dashboard</title>
+  <title>Last year</title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   
@@ -23,7 +23,7 @@
         Highcharts.chart('container', {
 
             title: {
-                text: 'Сумма проданных продуктов в последнем месяце'
+                text: 'Сумма проданных продуктов в последнем году(по месяцам)'
             },
         
             yAxis: {
@@ -33,7 +33,7 @@
             },
         
             xAxis: {
-                categories: {{ last_month_categories|safe }}
+                categories: {{ categories|safe }}
             },
         
             legend: {
@@ -44,7 +44,7 @@
         
             series: [{
                 name: 'Sum',
-                data: {{ last_month_series|safe }},
+                data: {{ series|safe }},
             }],
         
             responsive: {
@@ -64,6 +64,23 @@
         
         });
 
+        {% comment %} Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Сумма проданных продуктов'
+            },
+            xAxis: {
+                categories: {{ categories|safe }}
+            },
+            series: [{
+                name: 'Суммов',
+                data: {{ series|safe }},
+                color: 'green'
+            }]
+        }); {% endcomment %}
 
     </script>
+    
 </body>

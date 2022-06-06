@@ -8,6 +8,7 @@
   <meta name="description" content="" />
   
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css" />
+  {% comment %} <link rel="stylesheet" href="{% static 'css/navbar.css' %}" type="text/css" /> {% endcomment %}
 </head>
 
 <body>
@@ -19,7 +20,7 @@
                     <a class="nav-link" href="{% url 'storages' %}">Storages</a>
                     <a class="nav-link" href="{% url 'purchase' %}">Purchase</a>
                     <a class="nav-link" href="{% url 'sale' %}">Sale</a>
-                    {% comment %} <a class="nav-link" href="#">Actions</a> {% endcomment %}
+                    <a class="nav-link" href="">Monitoring</a>
                 </div>
             </div>
         </div>
