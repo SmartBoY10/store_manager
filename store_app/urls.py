@@ -26,4 +26,5 @@ urlpatterns = [
     path('sale-product/', SaleProduct.as_view(), name='sale_product'),
     path('last-month/', LastMonth.as_view(), name='last-month'),
     path('last-year/', LastYear.as_view(), name='last-year'),
+    path('popular/', PopularProducts.as_view(), name='popular'),
 ]

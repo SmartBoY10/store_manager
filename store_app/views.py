@@ -361,3 +361,15 @@ class LastYear(View):
             'categories': json.dumps(categories),
             'series': json.dumps(series)
         })
+
+
+class PopularProducts(View):
+    def get(self, request):
+        sales = Sale.objects.raw("select 1 as id, product.name, sum(sale.quantity) from store_app_sale as sale inner join store_app_product as product on (sale.product_id = product.id) group by product.name")
+        data = []
+        for sale in sales:
+            data.append({'name': sale.name, 'y': sale.sum})
+        
+        return render(request, "store_app/popular_products.html", {
+            'series': json.dumps(data)
+        })

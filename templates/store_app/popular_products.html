@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Popular products</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  
+  <link rel="stylesheet" href="{% static 'css/popular.css' %}" type="text/css" />
+</head>
+
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<body>
+
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+          
+        </p>
+      </figure>
+    
+    <script type="text/javascript">
+
+        Highcharts.chart('container', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Самые популярные продукты'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: {{ series|safe }}
+            }]
+        });
+
+
+    </script>
+</body>
