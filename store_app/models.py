@@ -63,8 +63,6 @@ class Product(models.Model):
     storege = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
     purchase_price_per_unit = models.PositiveIntegerField(verbose_name="Цена покупки(за единицу)", null=True)
     sale_price_per_unit = models.PositiveIntegerField(verbose_name="Цена продажи(за единицу)", null=True)
-    # total_cost = models.PositiveIntegerField(verbose_name="Общая себестоимость продукта", default=0)
-    # quantity = models.PositiveIntegerField(verbose_name="Кол-во в складе", default=0)
     discount = models.PositiveSmallIntegerField(verbose_name="Скидка в %", blank=True, null=True)
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
     brand = models.ForeignKey(Brand, verbose_name="Бренд", on_delete=models.SET_NULL, null=True)
