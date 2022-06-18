@@ -5,13 +5,10 @@
     </div>
     
     <div id="header_right">
-        <ul id="language">
-            <li><a><img src="{% static 'images/usa.png' %}" alt="English" /></a></li>
-        </ul>
         <div class="cleaner"></div>
         <div id="templatemo_search">
             <form action="#" method="get">
-              <input type="text" value="Search" name="keyword" id="keyword" title="keyword" onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
+              <input type="text" value="Искать" name="keyword" id="keyword" title="keyword" onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
               <input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn"  />
             </form>
         </div>
@@ -21,12 +18,11 @@
 
 <div id="templatemo_menu" class="ddsmoothmenu">
     <ul>
-        <li><a href="{% url 'home' %}" class="selected">Home</a></li>
-        <li><a href="{% url 'products' %}">Products</a></li>
-        <li><a href="{% url 'about' %}">About</a> </li>
-        <li><a href="{% url 'faqs' %}">FAQs</a></li>
-        <li><a href="#">Checkout</a></li>
-        <li><a href="{% url 'contact' %}">Contact</a></li>
+        <li><a href="{% url 'home' %}" class="selected">Главная</a></li>
+        <li><a href="{% url 'products' %}">Продукты</a></li>
+        <li><a href="{% url 'about' %}">О нас</a> </li>
+        <li><a href="{% url 'faqs' %}">Частые вопросы</a></li>
+        <li><a href="{% url 'contact' %}">Контакты</a></li>
     </ul>
     <br style="clear: left" />
 </div> <!-- end of templatemo_menu -->

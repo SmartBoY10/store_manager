@@ -9,20 +9,22 @@
     <div id="templatemo_main">
     	
         <div id="sidebar">
-        	<h3>Categories</h3>
+        	<h3>Категории</h3>
             <ul class="sidebar_menu">
-			    <li><a href="#">Aenean et dolor diam</a></li>
+                {% for category in categories %}
+			    <li><a href="#">{{ category.name }}</a></li>
+                {% endfor %}
 			</ul>
         </div> <!-- END of sidebar -->
        
         <div id="content">		
         	<table width="700px" cellspacing="0" cellpadding="5">
                 <tr bgcolor="#CCCCCC">
-                    <th width="220" align="left">Image </th> 
-                    <th width="180" align="left">Description </th> 
-                    <th width="100" align="center">Quantity </th> 
-                    <th width="60" align="right">Price </th> 
-                    <th width="60" align="right">Total </th> 
+                    <th width="220" align="left">Фото </th> 
+                    <th width="180" align="left">Описание </th> 
+                    <th width="100" align="center">Количество </th> 
+                    <th width="60" align="right">Цена </th> 
+                    <th width="60" align="right">Сумма </th> 
                     <th width="90"> </th>
                 </tr>
                 {% for order in orders %}
@@ -38,12 +40,12 @@
                     <td align="center"> <a href="{% url 'delete_from_cart' order.id %}"><img src="{% static 'images/remove_x.gif' %}" alt="remove" /><br />Remove</a> </td>
                 </tr>
                 <tr>
-                    <td colspan="3" align="right"  height="40px">Have you modified your basket? Please click here to <strong><button type="submit">Update</button></strong></td>
+                    <td colspan="3" align="right"  height="40px">Вы изменили свою корзину? Пожалуйста, нажмите сюда <strong><button type="submit">Обновить</button></strong></td>
                 </tr>
                 </form>
                 {% endfor %}
                 <tr>
-                    <td align="right" style="background:#ccc; font-weight:bold"> Total </td>
+                    <td align="right" style="background:#ccc; font-weight:bold"> Сумма </td>
                     <td align="right" style="background:#ccc; font-weight:bold">{{ cart_total_price }} </td>
                     <td style="background:#ccc; font-weight:bold"> </td>    
                 </tr>
@@ -51,9 +53,9 @@
 
             <div style="float:right; width: 215px; margin-top: 20px;">
             
-                <div class="checkout"><a href="{% url 'take-order' buyer_id %}" class="more">Proceed to Checkout</a></div>
+                <div class="checkout"><a href="{% url 'take-order' buyer_id %}" class="more">Перейдите к оформлению заказа</a></div>
                 <div class="cleaner h20"></div>
-                <div class="continueshopping"><a href="javascript:history.back()" class="more">Continue Shopping</a></div>
+                <div class="continueshopping"><a href="javascript:history.back()" class="more">Продолжайте совершать покупки</a></div>
                 
             </div>   
 		</div>

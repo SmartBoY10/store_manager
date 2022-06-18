@@ -9,7 +9,7 @@
     <div id="templatemo_main">
     	
         <div id="sidebar">
-        	<h3>Categories</h3>
+        	<h3>Категории</h3>
             <ul class="sidebar_menu">
                 {% for category in categories %}
 			    <li><a href="#">{{ category.name }}</a></li>
@@ -18,7 +18,7 @@
         </div> <!-- END of sidebar -->
         
         <div id="content">
-        	<h2>Product Details</h2>
+        	<h2>Подробная информация о продукте</h2>
             <div class="col col_13">
         	<a  rel="lightbox[portfolio]" href=""><img src="{{ product.image.url }}" height="200" width="280" alt="Image 10" /></a>
             </div>
@@ -27,41 +27,42 @@
             <div class="col col_13 no_margin_right">
                 <table>
                     <tr>
-                        <td height="30" width="160">Price:</td>
-                        <td>{{ product.price }}</td>
+                        <td height="30" width="160">Цена:</td>
+                        <td>{{ product.get_sale_price }}</td>
                     </tr>
                     <tr>
-                        <td height="30">Model:</td>
+                        <td height="30">Название:</td>
                         <td>{{ product.short_name }}</td>
                     </tr>
                     <tr>
-                        <td height="30">Manufacturer:</td>
+                        <td height="30">Производитель:</td>
                         <td>{{ product.brand }}</td>
                     </tr>
-                    <tr><td height="30">Quantity</td><td><input type="text" value="1" name="quantity" style="width: 20px; text-align: right" /></td></tr>
+                    <tr><td height="30">Количество</td><td><input type="text" value="1" name="quantity" style="width: 20px; text-align: right" /></td></tr>
                 </table>
                 <div class="cleaner h20"></div>
-                {% comment %} <a href="shoppingcart.html" class="add_to_cart">Add to Cart</a> {% endcomment %}
-                <button type="submit">Add to Cart</button>
+                <button type="submit">Добавить в корзину</button>
 			</div>
             </form>
             <div class="cleaner h30"></div>
             
-            <h5><strong>Product Description</strong></h5>
-            <p>{{ product.description }}</p>
+            <h5><strong>Характеристики</strong></h5>
+            <p>{{ product.description|safe }}</p>
             
             <div class="cleaner h50"></div>
             
-            <h4>Other Products</h4>
+            <h4>Другие продукты</h4>
 
+            {% for prod in products %}
         	<div class="col col_14 product_gallery">
-            	<a href="product_detail.html"><img src="images/product/01.jpg" alt="Product 01" /></a>
-                <h3>Ut eu feugiat</h3>
-                <p class="product_price">$ 100</p>
-                <a href="shoppingcart.html" class="add_to_cart">Add to Cart</a>
+            	<a href="{% url 'product_detail' prod.id %}"><img height="170" width="170" src="{{ prod.image.url }}" alt="Product 01" /></a>
+                <h3>{{ prod.short_name }}</h3>
+                <p class="product_price">{{ prod.get_sale_price }}</p>
+                <a href="{% url 'add_to_cart' prod.pk %}" class="add_to_cart">Добавить в корзину</a>
             </div>
+            {% endfor %}
 
-            <a href="#" class="more float_r">View all</a>
+            <a href="{% url 'products' %}" class="more float_r">Посмотреть все</a>
             
             <div class="cleaner"></div>
         </div> <!-- END of content -->

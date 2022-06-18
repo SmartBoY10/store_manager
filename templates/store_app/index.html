@@ -4,9 +4,9 @@
 {% block middle_head %}
     <div id="templatemo_middle">
         <img src="{% static 'images/templatemo_image_01.png' %}" alt="Image 01" />
-        <h1>Introducing Web Store</h1>
-        <p>Web Store is a free css template for your personal or commercial websites. Feel free to download, edit and use this template for any purpose.</p>
-        <a href="{% url 'products' %}" class="buy_now">Browse All Products</a>
+        <h1>Добро пожаловать в Интернет-магазин</h1>
+        <p>Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного</p>
+        <a href="{% url 'products' %}" class="buy_now">Все продукты</a>
     </div> <!-- END of middle -->
 {% endblock middle_head %}
 
@@ -33,7 +33,7 @@
 
         <!-- Sidebar -->
         <div id="sidebar">
-            <h3>Categories</h3>
+            <h3>Категории</h3>
             <ul class="sidebar_menu">
                 {% for category in category_list %}
                 <li><a href="{% url 'by_category' category.id %}">{{ category.name }}</a></li>
@@ -49,7 +49,7 @@
                 <h3>{{ product.name }}</h3>
                 <p class="product_price">{{ product.sale_price_per_unit }}</p>
                 <p>{{ product.get_sale_price }}</p>
-                <a href="{% url 'add_to_cart' product.pk %}" class="add_to_cart">Add to Cart</a>
+                <a href="{% url 'add_to_cart' product.pk %}" class="add_to_cart">Добавить в корзину</a>
             </div>
             {% endfor %}
         </div> <!-- END of content -->

@@ -1,5 +1,6 @@
 from dbm import dumb
 import json
+from unicodedata import category
 from django.shortcuts import redirect, render
 import datetime
 from django.db.models import Count, Q
@@ -65,10 +66,11 @@ class ContactView(View):
 class ProductDetailView(View):
     def get(self, request, pk):
         product = Product.objects.get(id=pk)
+        products = Product.objects.all()[:2]
         product.view_count += 1
         product.save()
         categories = Category.objects.filter(parent=True)
-        context = {"product":product, "categories": categories}
+        context = {"product":product, "categories": categories, 'products': products}
         return render(request, "store_app/product_detail.html", context)
 
 
@@ -98,6 +100,7 @@ class AddToCart(View):
 class CartDetailView(View):
     def get(self, request):
         cart_total_price = 0
+        categories = Category.objects.all()
         s = request.session
         try:
             buyer = Buyer.objects.get(session_id=s.session_key)
@@ -110,7 +113,7 @@ class CartDetailView(View):
         for order in orders:
             cart_total_price += order.total_price
 
-        context = {'orders': orders, 'buyer_id': buyer.id, 'cart_total_price': cart_total_price}
+        context = {'orders': orders, 'buyer_id': buyer.id, 'cart_total_price': cart_total_price, 'categories': categories}
         return render(request, "store_app/cart_detail.html", context)
 
 
@@ -175,7 +178,8 @@ class ConfirmDelete(View):
 class TakeOrder(View):
     def get(self, request, pk):
         pay_type = PayType.objects.all()
-        return render(request, "store_app/checkout.html", {"buyer_id": pk, "pay_type": pay_type})
+        categories = Category.objects.all()
+        return render(request, "store_app/checkout.html", {"buyer_id": pk, "pay_type": pay_type, 'categories': categories})
 
 
 class Confirm(View):

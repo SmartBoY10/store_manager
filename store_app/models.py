@@ -171,7 +171,7 @@ class Sale(models.Model):
     # storage = models.ForeignKey(Storage, verbose_name="Склад", on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, verbose_name="Продукт", on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(verbose_name="Кол-во")
-    date_of_purchase = models.DateField(auto_now_add=True, verbose_name='Дата продажи', null=True)
+    date_of_purchase = models.DateField(verbose_name='Дата продажи', null=True)
     purchase_price_per_unit = models.IntegerField(verbose_name="Цена закупки за единицу", null=True)
     sale_price_per_unit = models.IntegerField(verbose_name="Цена продажи за единицу")
 
